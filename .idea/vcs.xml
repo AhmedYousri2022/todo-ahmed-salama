@@ -2,7 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Untitled" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Untitled/simple-todo" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/todo" vcs="Git" />
   </component>
 </project>
