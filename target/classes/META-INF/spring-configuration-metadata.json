@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "tasks.todo.cleanup",
+      "type": "com.simplesystem.todo.config.ApplicationProperties",
+      "sourceType": "com.simplesystem.todo.config.ApplicationProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "tasks.todo.cleanup.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.simplesystem.todo.config.ApplicationProperties",
+      "defaultValue": false
+    }
+  ],
+  "hints": []
+}

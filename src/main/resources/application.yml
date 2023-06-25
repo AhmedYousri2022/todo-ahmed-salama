@@ -1,0 +1,22 @@
+spring:
+ datasource:
+  url: jdbc:h2:mem:todo
+  username: root
+  password: root
+  driverClassName: org.h2.Driver
+ jpa:
+  spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+  hibernate:
+   ddl-auto: create-drop
+  generate-ddl: true
+
+
+server:
+ port: 8080
+
+tasks:
+ todo:
+  cleanup:
+   enabled: true
+   cron: 0 1 1 * * ?
+
