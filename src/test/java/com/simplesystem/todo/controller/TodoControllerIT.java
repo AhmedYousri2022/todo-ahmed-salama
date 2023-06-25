@@ -55,7 +55,7 @@ class TodoControllerIT {
     }
 
     @Test
-    void shouldReturnBadRequest() throws Exception {
+    void shouldReturnBadRequest_when_CreatingItem() throws Exception {
         itemRequestDto.setDueDate(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).minusDays(1));
         mvc.perform(post("/todos").contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(itemRequestDto)))
