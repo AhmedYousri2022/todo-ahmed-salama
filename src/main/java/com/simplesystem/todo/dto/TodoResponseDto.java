@@ -3,10 +3,14 @@ package com.simplesystem.todo.dto;
 import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class TodoResponseDto {
 
