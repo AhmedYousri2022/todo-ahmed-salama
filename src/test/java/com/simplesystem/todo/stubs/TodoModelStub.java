@@ -4,13 +4,13 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
+import com.simplesystem.todo.model.Item;
 import com.simplesystem.todo.model.Status;
-import com.simplesystem.todo.model.Todo;
 
 public class TodoModelStub {
 
-    public static Todo getTodo() {
-        return Todo.builder()
+    public static Item getTodo() {
+        return Item.builder()
                 .id(UUID.fromString("5087fb1f-8d57-46e0-9cdb-ad70855f0fc4"))
                 .description("description")
                 .dueDate(Instant.now().plus(2, ChronoUnit.DAYS))

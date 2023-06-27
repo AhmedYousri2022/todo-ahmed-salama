@@ -4,20 +4,20 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import com.simplesystem.todo.model.Item;
 import com.simplesystem.todo.model.Status;
-import com.simplesystem.todo.model.Todo;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public
-interface TodoRepository extends CrudRepository<Todo, UUID> {
+interface TodoRepository extends CrudRepository<Item, UUID> {
 
-    List<Todo> findAllByStatusAndDueDateBefore(Status status, Instant currentDate);
-    List<Todo> findAllByStatus(Status status);
-    List<Todo> findAll();
+    List<Item> findAllByStatusAndDueDateBefore(Status status, Instant currentDate);
+    List<Item> findAllByStatus(Status status);
+    List<Item> findAll();
 
-    default List<Todo> getExpiredTodos(Instant currentDate) {
+    default List<Item> getExpiredTodos(Instant currentDate) {
         return findAllByStatusAndDueDateBefore(Status.NOT_DONE, currentDate);
     }
 }

@@ -1,7 +1,6 @@
 package com.simplesystem.todo.service;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -16,8 +15,8 @@ import com.simplesystem.todo.exception.MarkNotAllowedException;
 import com.simplesystem.todo.exception.NotFoundException;
 import com.simplesystem.todo.mapper.ItemMapper;
 import com.simplesystem.todo.mapper.ZonedDateTimeMapper;
+import com.simplesystem.todo.model.Item;
 import com.simplesystem.todo.model.Status;
-import com.simplesystem.todo.model.Todo;
 import com.simplesystem.todo.repository.TodoRepository;
 import com.simplesystem.todo.validation.Validation;
 import lombok.RequiredArgsConstructor;
@@ -44,16 +43,16 @@ public class TodoService {
     @Transactional
     public TodoResponseDto addTodo(ItemRequestDto dto) {
         Validation.isValidDate(dto.getDueDate());
-        Todo todo = repository.save(itemMapper.toTodo(dto));
-        return itemMapper.toTodoResponse(todo);
+        Item item = repository.save(itemMapper.toTodo(dto));
+        return itemMapper.toTodoResponse(item);
     }
 
     @Transactional
     public TodoResponseDto updateItemDescription(String itemId, String description) {
-        Todo todo = getTodoIfExist(itemId);
-        todo.setDescription(description);
-        Todo updatedTodo = repository.save(todo);
-        return itemMapper.toTodoResponse(updatedTodo);
+        Item item = getTodoIfExist(itemId);
+        item.setDescription(description);
+        Item updatedItem = repository.save(item);
+        return itemMapper.toTodoResponse(updatedItem);
     }
 
     @Transactional
@@ -61,38 +60,38 @@ public class TodoService {
         if (withAllItems) {
             return repository.findAll().stream().map(itemMapper::toTodoResponse).collect(Collectors.toList());
         }
-        List<Todo> notDoneItems = repository.findAllByStatus(Status.NOT_DONE);
+        List<Item> notDoneItems = repository.findAllByStatus(Status.NOT_DONE);
         return notDoneItems.stream().map(itemMapper::toTodoResponse).collect(Collectors.toList());
     }
 
     @Transactional
     public TodoResponseDto markItem(String itemId, String status, LocalDateTime dueDate) {
-        Todo todo = getTodoIfExist(itemId);
-        if (Status.PAST_DUE == todo.getStatus()) {
+        Item item = getTodoIfExist(itemId);
+        if (Status.PAST_DUE == item.getStatus()) {
             throw new MarkNotAllowedException("Can not change PAST_DUE status");
         } else if (Status.DONE == Status.valueOf(status)) {
-            todo.setDoneDate(Instant.now());
+            item.setDoneDate(Instant.now());
         } else if (Status.NOT_DONE == Status.valueOf(status) && dueDate != null) {
             Validation.isValidDate(ZonedDateTime.of(dueDate, TimeUtil.TIMEZONE_BERLIN));
-            todo.setDoneDate(null);
-            todo.setDueDate(timeMapper.toInstant(ZonedDateTime.of(dueDate, TimeUtil.TIMEZONE_BERLIN)));
+            item.setDoneDate(null);
+            item.setDueDate(timeMapper.toInstant(ZonedDateTime.of(dueDate, TimeUtil.TIMEZONE_BERLIN)));
         }
         else if (Status.NOT_DONE == Status.valueOf(status) && dueDate == null) {
             throw new BadRequestException("Due date should be updated");
         }
 
-        todo.setStatus(Status.valueOf(status));
-        Todo updatedItem = repository.save(todo);
+        item.setStatus(Status.valueOf(status));
+        Item updatedItem = repository.save(item);
         return itemMapper.toTodoResponse(updatedItem);
     }
 
     @Transactional
     public TodoResponseDto getItemDetails(String itemId) {
-        Todo todo = getTodoIfExist(itemId);
-        return itemMapper.toTodoResponse(todo);
+        Item item = getTodoIfExist(itemId);
+        return itemMapper.toTodoResponse(item);
     }
 
-    private Todo getTodoIfExist(String itemId) {
+    private Item getTodoIfExist(String itemId) {
         UUID uuid;
         try {
             uuid = UUID.fromString(itemId);
@@ -112,12 +111,12 @@ public class TodoService {
             return;
         }
 
-        List<Todo> expiredTodos = repository.getExpiredTodos(Instant.now());
-        log.debug("Expired Todo: {}", expiredTodos.size());
+        List<Item> expiredItems = repository.getExpiredTodos(Instant.now());
+        log.debug("Expired Todo: {}", expiredItems.size());
 
-        for (Todo expiredTodo : expiredTodos) {
-            expiredTodo.setStatus(Status.PAST_DUE);
-            log.debug("Todo '{}' expired. New state: {}", expiredTodo.getId(), expiredTodo.getStatus());
+        for (Item expiredItem : expiredItems) {
+            expiredItem.setStatus(Status.PAST_DUE);
+            log.debug("Todo '{}' expired. New state: {}", expiredItem.getId(), expiredItem.getStatus());
         }
         log.debug("task clean up finished");
     }

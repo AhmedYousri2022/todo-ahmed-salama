@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TodoController.class)
-class TodoControllerTest {
+class ItemControllerTest {
 
     @Autowired
     private MockMvc mvc;

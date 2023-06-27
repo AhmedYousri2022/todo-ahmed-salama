@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.simplesystem.todo.dto.ItemRequestDto;
 import com.simplesystem.todo.dto.TodoResponseDto;
-import com.simplesystem.todo.model.Todo;
+import com.simplesystem.todo.model.Item;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -15,14 +15,14 @@ import org.mapstruct.ReportingPolicy;
 public interface ItemMapper {
 
     @Mappings({
-            @Mapping(target = "itemId", source = "todo.id",  qualifiedByName = "convertUUIDtoString"),
-            @Mapping(target = "description", source = "todo.description"),
-            @Mapping(target = "status", source = "todo.status"),
-            @Mapping(target = "createdAt", source = "todo.createdAt"),
-            @Mapping(target = "dueDate", source = "todo.dueDate"),
-            @Mapping(target = "doneDate", source = "todo.doneDate"),
+            @Mapping(target = "itemId", source = "item.id",  qualifiedByName = "convertUUIDtoString"),
+            @Mapping(target = "description", source = "item.description"),
+            @Mapping(target = "status", source = "item.status"),
+            @Mapping(target = "createdAt", source = "item.createdAt"),
+            @Mapping(target = "dueDate", source = "item.dueDate"),
+            @Mapping(target = "doneDate", source = "item.doneDate"),
     })
-    TodoResponseDto toTodoResponse(Todo todo);
+    TodoResponseDto toTodoResponse(Item item);
 
     @Mappings({
             @Mapping(target = "description", source = "itemRequestDto.description"),
@@ -30,7 +30,7 @@ public interface ItemMapper {
             @Mapping(target = "dueDate", source = "itemRequestDto.dueDate"),
             @Mapping(target = "doneDate", ignore = true),
     })
-    Todo toTodo(ItemRequestDto itemRequestDto);
+    Item toTodo(ItemRequestDto itemRequestDto);
 
     @Named("convertUUIDtoString")
     static String convertUUIDtoString(UUID id) {

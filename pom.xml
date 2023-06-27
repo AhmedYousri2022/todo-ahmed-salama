@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.simplesystem</groupId>
-	<artifactId>todo</artifactId>
+	<artifactId>item</artifactId>
 	<version>1.0.0</version>
-	<name>todo</name>
-	<description>todo</description>
+	<name>item</name>
+	<description>item</description>
 	<properties>
 		<java.version>11</java.version>
 		<repackage.classifier/>

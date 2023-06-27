@@ -26,8 +26,8 @@ import org.hibernate.annotations.CreationTimestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "todo")
-public class Todo {
+@Table(name = "item")
+public class Item {
 
     @Id
     @GeneratedValue
