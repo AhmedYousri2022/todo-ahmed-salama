@@ -12,7 +12,7 @@ public class ItemRequestDtoStub {
     public static ItemRequestDto getDto() {
         return ItemRequestDto.builder()
                 .description("description")
-                .dueDate(ZonedDateTime.of(LocalDateTime.of(2023,12,12,12,12,12), TimeUtil.TIMEZONE_BERLIN))
+                .dueDate(ZonedDateTime.now().plusDays(3))
                 .status(Status.NOT_DONE).build();
     }
 }

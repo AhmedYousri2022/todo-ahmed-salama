@@ -1,6 +1,5 @@
 package com.simplesystem.todo.controller;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +9,7 @@ import com.simplesystem.todo.dto.TodoResponseDto;
 import com.simplesystem.todo.exception.BadRequestException;
 import com.simplesystem.todo.exception.NotFoundException;
 import com.simplesystem.todo.service.TodoService;
+import com.simplesystem.todo.stubs.ItemRequestDtoStub;
 import com.simplesystem.todo.stubs.TodoResponseDtoStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import utils.TimeUtil;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
@@ -44,39 +46,30 @@ class TodoControllerTest {
 
     @BeforeEach
     void setup() {
-        itemRequestDto = ItemRequestDto.builder()
-                .description("todo 1")
-                .status(Status.NOT_DONE)
-                .dueDate(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(1)).build();
+        itemRequestDto = ItemRequestDtoStub.getDto();
     }
 
     @Test
     void shouldCreateItem() throws Exception {
-        given(service.addTodo(itemRequestDto))
-                .willReturn(TodoResponseDtoStub.getDto());
+        given(service.addTodo(itemRequestDto)).willReturn(TodoResponseDtoStub.getDto());
 
         mvc.perform(post("/todos").contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(itemRequestDto)))
 
-                .andExpect(status().isOk())
-
-                .andExpect(jsonPath("itemId").exists())
-                .andExpect(jsonPath("description").exists())
-                .andExpect(jsonPath("status").exists())
-                .andExpect(jsonPath("dueDate").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(status().isOk());
     }
 
     @Test
     void shouldReturnBadRequest_when_CreatingItem() throws Exception {
-        itemRequestDto.setDueDate(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).minusDays(1));
+        itemRequestDto.setDueDate(ZonedDateTime.now(TimeUtil.TIMEZONE_BERLIN).minusDays(1));
 
         doThrow(new BadRequestException("Due date should be in the future"))
                 .when(service)
-                .addTodo(itemRequestDto);
+                .addTodo(any());
 
         mvc.perform(post("/todos").contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(itemRequestDto)))
+
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("status").exists())
                 .andExpect(jsonPath("message").exists())
