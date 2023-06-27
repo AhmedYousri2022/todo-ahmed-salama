@@ -15,8 +15,8 @@ import com.simplesystem.todo.exception.NotFoundException;
 import com.simplesystem.todo.model.Item;
 import com.simplesystem.todo.model.Status;
 import com.simplesystem.todo.repository.TodoRepository;
-import com.simplesystem.todo.stubs.TodoModelStub;
-import com.simplesystem.todo.stubs.TodoRequestDtoStub;
+import com.simplesystem.todo.stubs.ItemModelStub;
+import com.simplesystem.todo.stubs.ItemRequestDtoStub;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-class ItemServiceIT {
+class TodoServiceIT {
 
     @Autowired
     private TodoRepository repository;
@@ -48,7 +48,7 @@ class ItemServiceIT {
 
     @Test
     void should_save_item() {
-        TodoResponseDto responseDto = service.addTodo(TodoRequestDtoStub.getDto());
+        TodoResponseDto responseDto = service.addTodo(ItemRequestDtoStub.getDto());
 
         assertThat(responseDto.getDescription(), is("description"));
     }
@@ -65,7 +65,7 @@ class ItemServiceIT {
 
     @Test
     void should_update_descritopn() {
-        Item item = repository.save(TodoModelStub.getTodo());
+        Item item = repository.save(ItemModelStub.getTodo());
 
         TodoResponseDto responseDto = service.updateItemDescription(String.valueOf(item.getId()), "new des");
 
@@ -92,7 +92,7 @@ class ItemServiceIT {
 
     @Test
     void should_get_ItemDetails() {
-        Item item = repository.save(TodoModelStub.getTodo());
+        Item item = repository.save(ItemModelStub.getTodo());
 
         TodoResponseDto itemDetails = service.getItemDetails(String.valueOf(item.getId()));
 
@@ -104,7 +104,7 @@ class ItemServiceIT {
 
     @Test
     void should_Update_Expired_Items() {
-        Item outDatedDueDate = TodoModelStub.getTodo();
+        Item outDatedDueDate = ItemModelStub.getTodo();
         outDatedDueDate.setDueDate(Instant.now().minus(3, ChronoUnit.DAYS));
         Item item = repository.save(outDatedDueDate);
 
@@ -116,7 +116,7 @@ class ItemServiceIT {
 
     @Test
     void should_Mark_DoneItem() {
-        Item item = repository.save(TodoModelStub.getTodo());
+        Item item = repository.save(ItemModelStub.getTodo());
 
         TodoResponseDto responseDto = service.markItem(String.valueOf(item.getId()), "DONE", null);
 
@@ -126,7 +126,7 @@ class ItemServiceIT {
 
     @Test
     void should_Mark_NotDoneItem() {
-        Item item = repository.save(TodoModelStub.getTodo());
+        Item item = repository.save(ItemModelStub.getTodo());
         LocalDateTime newDueDate = LocalDateTime.now().plusDays(3);
 
         TodoResponseDto responseDto = service.markItem(String.valueOf(item.getId()), "NOT_DONE", newDueDate);
@@ -138,7 +138,7 @@ class ItemServiceIT {
 
     @Test
     void should_Thorw_BadRequest_When_Mark_NotDoneItem() {
-        Item item = repository.save(TodoModelStub.getTodo());
+        Item item = repository.save(ItemModelStub.getTodo());
 
         BadRequestException notDone = assertThrows(
                 BadRequestException.class,
@@ -150,7 +150,7 @@ class ItemServiceIT {
 
     @Test
     void should_Throw_MarkNotAllowedException() {
-        Item pastDueItem = TodoModelStub.getTodo();
+        Item pastDueItem = ItemModelStub.getTodo();
         pastDueItem.setStatus(Status.PAST_DUE);
         Item item = repository.save(pastDueItem);
 
@@ -163,11 +163,11 @@ class ItemServiceIT {
     }
 
     private void addTxns() {
-        Item item = TodoModelStub.getTodo();
+        Item item = ItemModelStub.getTodo();
         item.setStatus(Status.DONE);
         repository.save(item);
-        repository.save(TodoModelStub.getTodo());
-        repository.save(TodoModelStub.getTodo());
-        repository.save(TodoModelStub.getTodo());
+        repository.save(ItemModelStub.getTodo());
+        repository.save(ItemModelStub.getTodo());
+        repository.save(ItemModelStub.getTodo());
     }
 }

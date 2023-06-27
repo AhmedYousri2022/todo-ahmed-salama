@@ -7,7 +7,7 @@ import com.simplesystem.todo.dto.ItemRequestDto;
 import com.simplesystem.todo.dto.Status;
 import utils.TimeUtil;
 
-public class TodoRequestDtoStub {
+public class ItemRequestDtoStub {
 
     public static ItemRequestDto getDto() {
         return ItemRequestDto.builder()

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.simplesystem.todo.model.Item;
 import com.simplesystem.todo.model.Status;
-import com.simplesystem.todo.stubs.TodoModelStub;
+import com.simplesystem.todo.stubs.ItemModelStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +16,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
 @DataJpaTest
-class ItemRepositoryTest {
+class TodoRepositoryTest {
 
     @Autowired
     private TodoRepository repository;
 
     @BeforeEach
     void setup() {
-        repository.save(TodoModelStub.getTodo());
-        repository.save(TodoModelStub.getTodo());
-        repository.save(TodoModelStub.getTodo());
-        repository.save(TodoModelStub.getTodo());
-        Item doneItem = TodoModelStub.getTodo();
+        repository.save(ItemModelStub.getTodo());
+        repository.save(ItemModelStub.getTodo());
+        repository.save(ItemModelStub.getTodo());
+        repository.save(ItemModelStub.getTodo());
+        Item doneItem = ItemModelStub.getTodo();
         doneItem.setStatus(Status.DONE);
         repository.save(doneItem);
-        Item dueDatePast = TodoModelStub.getTodo();
+        Item dueDatePast = ItemModelStub.getTodo();
         dueDatePast.setDueDate(Instant.now().minus(4, ChronoUnit.DAYS));
         repository.save(dueDatePast);
     }

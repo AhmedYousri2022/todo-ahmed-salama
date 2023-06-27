@@ -7,7 +7,7 @@ import java.util.UUID;
 import com.simplesystem.todo.model.Item;
 import com.simplesystem.todo.model.Status;
 
-public class TodoModelStub {
+public class ItemModelStub {
 
     public static Item getTodo() {
         return Item.builder()

@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "0d647807-e569-4c4a-a5e6-93e1a0bf0846",
+		"name": "Todo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12635879"
+	},
+	"item": [
+		{
+			"name": "Add Item details",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"2\",\n    \"status\" :\"NOT_DONE\",\n    \"dueDate\" : \"26-06-2023 15:53:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Item details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/todos/5c2e76ce-9b46-4ae4-8912-7aa82f46453c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"todos",
+						"5c2e76ce-9b46-4ae4-8912-7aa82f46453c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get not done items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"todos"
+					],
+					"query": [
+						{
+							"key": "withAllItem",
+							"value": "true",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mark item",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/todos/5c2e76ce-9b46-4ae4-8912-7aa82f46453c/status/DONE?dueDate=28-06-2023 15:53:00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"todos",
+						"5c2e76ce-9b46-4ae4-8912-7aa82f46453c",
+						"status",
+						"DONE"
+					],
+					"query": [
+						{
+							"key": "dueDate",
+							"value": "28-06-2023 15:53:00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change item description",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "ahmed",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/todos/5c2e76ce-9b46-4ae4-8912-7aa82f46453c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"todos",
+						"5c2e76ce-9b46-4ae4-8912-7aa82f46453c"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
