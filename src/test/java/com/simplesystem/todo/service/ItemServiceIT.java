@@ -49,6 +49,7 @@ class ItemServiceIT {
     @Test
     void should_save_item() {
         TodoResponseDto responseDto = service.addTodo(TodoRequestDtoStub.getDto());
+
         assertThat(responseDto.getDescription(), is("description"));
     }
 
@@ -58,34 +59,43 @@ class ItemServiceIT {
                 NotFoundException.class,
                 () -> service.updateItemDescription("5087fb1f-8d57-46e0-9cdb-ad70855f0fc4", "new des"),
                 "Item not found");
+
         assertThat(exception.getMessage(), is("Item not found"));
     }
 
     @Test
     void should_update_descritopn() {
         Item item = repository.save(TodoModelStub.getTodo());
+
         TodoResponseDto responseDto = service.updateItemDescription(String.valueOf(item.getId()), "new des");
+
         assertThat(responseDto.getDescription(), is("new des"));
     }
 
     @Test
     void should_get_AllNotDoneItems() {
         addTxns();
+
         List<TodoResponseDto> responseDto = service.getNotDoneItems(false);
+
         assertThat(responseDto, hasSize(3));
     }
 
     @Test
     void should_get_All_Items() {
         addTxns();
+
         List<TodoResponseDto> responseDto = service.getNotDoneItems(true);
+
         assertThat(responseDto, hasSize(4));
     }
 
     @Test
     void should_get_ItemDetails() {
         Item item = repository.save(TodoModelStub.getTodo());
+
         TodoResponseDto itemDetails = service.getItemDetails(String.valueOf(item.getId()));
+
         assertThat(itemDetails.getDescription(), is(item.getDescription()));
         assertThat(itemDetails.getStatus().name(), is(item.getStatus().name()));
         assertThat(itemDetails.getDueDate().toInstant(), is(item.getDueDate()));
@@ -97,7 +107,9 @@ class ItemServiceIT {
         Item outDatedDueDate = TodoModelStub.getTodo();
         outDatedDueDate.setDueDate(Instant.now().minus(3, ChronoUnit.DAYS));
         Item item = repository.save(outDatedDueDate);
+
         service.updateExpiredTodos();
+
         Optional<Item> updatedItem = repository.findById(item.getId());
         assertThat(updatedItem.get().getStatus().name(), is(com.simplesystem.todo.dto.Status.PAST_DUE.name()));
     }

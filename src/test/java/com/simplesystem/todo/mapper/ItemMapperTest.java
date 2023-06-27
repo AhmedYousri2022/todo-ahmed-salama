@@ -19,7 +19,9 @@ class ItemMapperTest {
     @Test
     void should_Map_to_TodoResponse() {
         Item item = TodoModelStub.getTodo();
+
         TodoResponseDto todoResponse = mapper.toTodoResponse(item);
+
         assertThat(todoResponse.getItemId(), is(item.getId().toString()));
         assertThat(todoResponse.getDescription(), is(item.getDescription()));
         assertThat(todoResponse.getStatus().name(), is(item.getStatus().name()));
@@ -29,6 +31,7 @@ class ItemMapperTest {
     @Test
     void should_Map_to_Todo() {
         ItemRequestDto dto = TodoRequestDtoStub.getDto();
+
         Item item = mapper.toTodo(dto);
 
         assertThat(item.getDescription(), is(dto.getDescription()));

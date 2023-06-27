@@ -38,18 +38,21 @@ class ItemRepositoryTest {
     @Test
     void should_return_expiredItems() {
         List<Item> expiredItems = repository.getExpiredTodos(Instant.now());
+
         assertThat(expiredItems, hasSize(1));
     }
 
     @Test
     void should_find_allDoneItem() {
         List<Item> expiredItems = repository.findAllByStatus(Status.DONE);
+
         assertThat(expiredItems, hasSize(1));
     }
 
     @Test
     void should_find_NotDoneItem() {
         List<Item> expiredItems = repository.findAllByStatus(Status.NOT_DONE);
+
         assertThat(expiredItems, hasSize(5));
     }
 }
