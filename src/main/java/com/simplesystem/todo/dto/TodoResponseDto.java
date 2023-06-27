@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import utils.TimeUtil;
 
 @Data
 @Builder
@@ -20,12 +21,12 @@ public class TodoResponseDto {
 
     private Status status;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Europe/Berlin")
+    @JsonFormat(pattern = TimeUtil.DATE_TIME_PATTERN, timezone = TimeUtil.TIMEZONE_BERLIN_STRING)
     private ZonedDateTime createdAt;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Europe/Berlin")
+    @JsonFormat(pattern = TimeUtil.DATE_TIME_PATTERN, timezone = TimeUtil.TIMEZONE_BERLIN_STRING)
     private ZonedDateTime dueDate;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Europe/Berlin")
+    @JsonFormat(pattern = TimeUtil.DATE_TIME_PATTERN, timezone = TimeUtil.TIMEZONE_BERLIN_STRING)
     private ZonedDateTime doneDate;
 }

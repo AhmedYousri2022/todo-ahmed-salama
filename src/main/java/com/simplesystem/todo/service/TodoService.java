@@ -3,7 +3,6 @@ package com.simplesystem.todo.service;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +26,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import utils.TimeUtil;
 
 @Slf4j
 @Service
@@ -73,9 +73,9 @@ public class TodoService {
         } else if (Status.DONE == Status.valueOf(status)) {
             todo.setDoneDate(Instant.now());
         } else if (Status.NOT_DONE == Status.valueOf(status) && dueDate != null) {
-            Validation.isValidDate(ZonedDateTime.of(dueDate, ZoneId.of("Europe/Berlin")));
+            Validation.isValidDate(ZonedDateTime.of(dueDate, TimeUtil.TIMEZONE_BERLIN));
             todo.setDoneDate(null);
-            todo.setDueDate(timeMapper.toInstant(ZonedDateTime.of(dueDate, ZoneId.of("Europe/Berlin"))));
+            todo.setDueDate(timeMapper.toInstant(ZonedDateTime.of(dueDate, TimeUtil.TIMEZONE_BERLIN)));
         }
 
         todo.setStatus(Status.valueOf(status));

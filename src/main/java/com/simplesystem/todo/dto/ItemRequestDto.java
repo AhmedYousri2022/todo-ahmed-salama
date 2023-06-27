@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import utils.TimeUtil;
 
 @Data
 @Builder
@@ -27,6 +28,6 @@ public class ItemRequestDto {
     private Status status;
 
     @NotNull
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Europe/Berlin")
+    @JsonFormat(pattern = TimeUtil.DATE_TIME_PATTERN, timezone = TimeUtil.TIMEZONE_BERLIN_STRING)
     private ZonedDateTime dueDate;
 }
