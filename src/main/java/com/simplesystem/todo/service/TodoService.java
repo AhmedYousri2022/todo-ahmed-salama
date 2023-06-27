@@ -77,6 +77,9 @@ public class TodoService {
             todo.setDoneDate(null);
             todo.setDueDate(timeMapper.toInstant(ZonedDateTime.of(dueDate, TimeUtil.TIMEZONE_BERLIN)));
         }
+        else if (Status.NOT_DONE == Status.valueOf(status) && dueDate == null) {
+            throw new BadRequestException("Due date should be updated");
+        }
 
         todo.setStatus(Status.valueOf(status));
         Todo updatedItem = repository.save(todo);
@@ -109,8 +112,7 @@ public class TodoService {
             return;
         }
 
-        LocalDate currentDate = LocalDate.now();
-        List<Todo> expiredTodos = repository.getExpiredTodos(currentDate);
+        List<Todo> expiredTodos = repository.getExpiredTodos(Instant.now());
         log.debug("Expired Todo: {}", expiredTodos.size());
 
         for (Todo expiredTodo : expiredTodos) {
