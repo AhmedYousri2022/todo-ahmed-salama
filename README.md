@@ -16,7 +16,7 @@
 3. you can change any item from not done to done
 4. if the user want to change item's status from done  to not done the user has to define a new due date and done date will be reset to null
 5. there is a Scheduler running every day at midnight in UTC time zone to check all (not done) todos and change their status from (NOT_Done) to (PAST_DUE).
-
+6. the length for description field on for an item should be between 2 to 200 character 
 ### technical assumption
 1. allowing user to mark done and not done item has been developed in one API with optional parameter dueDate.
 2. get not done item API has a optional boolean parameter (withAllItem) to allow the user to get all items
