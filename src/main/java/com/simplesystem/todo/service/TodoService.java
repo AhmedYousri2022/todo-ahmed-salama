@@ -49,7 +49,10 @@ public class TodoService {
 
     @Transactional
     public TodoResponseDto updateItemDescription(String itemId, String description) {
-        Item item = getTodoIfExist(itemId);
+        Item item = getItemIfExist(itemId);
+        if (Status.PAST_DUE == item.getStatus()) {
+            throw new MarkNotAllowedException("Can not change PAST_DUE status");
+        }
         item.setDescription(description);
         Item updatedItem = repository.save(item);
         return itemMapper.toTodoResponse(updatedItem);
@@ -66,7 +69,7 @@ public class TodoService {
 
     @Transactional
     public TodoResponseDto markItem(String itemId, String status, LocalDateTime dueDate) {
-        Item item = getTodoIfExist(itemId);
+        Item item = getItemIfExist(itemId);
         if (Status.PAST_DUE == item.getStatus()) {
             throw new MarkNotAllowedException("Can not change PAST_DUE status");
         } else if (Status.DONE == Status.valueOf(status)) {
@@ -86,11 +89,11 @@ public class TodoService {
 
     @Transactional
     public TodoResponseDto getItemDetails(String itemId) {
-        Item item = getTodoIfExist(itemId);
+        Item item = getItemIfExist(itemId);
         return itemMapper.toTodoResponse(item);
     }
 
-    private Item getTodoIfExist(String itemId) {
+    private Item getItemIfExist(String itemId) {
         UUID uuid;
         try {
             uuid = UUID.fromString(itemId);
