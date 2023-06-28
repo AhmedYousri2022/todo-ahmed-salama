@@ -18,5 +18,5 @@ tasks:
  todo:
   cleanup:
    enabled: true
-   cron: 0 1 1 * * ?
+   cron: 0 0 0 * * *
 

@@ -75,8 +75,7 @@ public class TodoService {
             Validation.isValidDate(ZonedDateTime.of(dueDate, TimeUtil.TIMEZONE_BERLIN));
             item.setDoneDate(null);
             item.setDueDate(timeMapper.toInstant(ZonedDateTime.of(dueDate, TimeUtil.TIMEZONE_BERLIN)));
-        }
-        else if (Status.NOT_DONE == Status.valueOf(status) && dueDate == null) {
+        } else if (Status.NOT_DONE == Status.valueOf(status) && dueDate == null) {
             throw new BadRequestException("Due date should be updated");
         }
 
@@ -105,7 +104,7 @@ public class TodoService {
 
 
     @Transactional
-    @Scheduled(cron = "${tasks.todo.cleanup.cron}")
+    @Scheduled(cron = "${tasks.todo.cleanup.cron}", zone = "UTC")
     public void updateExpiredTodos() {
         if (!applicationProperties.isEnabled()) {
             return;
